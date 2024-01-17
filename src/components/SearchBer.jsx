@@ -19,7 +19,7 @@ const SearchBer = () => {
       return
     }
     //alert("test")
-    router.push(`search?query=${encodeURIComponent(query)}`)
+    router.push(`/search?query=${encodeURIComponent(query)}`)
   }
 
   return (
