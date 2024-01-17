@@ -10,6 +10,7 @@ export default async(req,res) => {
 
     try {
         const response = await axios.get(`https://api.themoviedb.org/3/search/multi?api_key=${process.env.TMDB_API_KEY}&query=${encodeURIComponent(searchQuery)}&language=ja-JP`);
+        console.log(response)
         return res.status(200).json(response.data);
     } catch(err) {
         console.log('エラー内容は...', err);
