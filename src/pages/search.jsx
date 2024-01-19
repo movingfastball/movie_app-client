@@ -54,7 +54,9 @@ const search = () => {
     </Head>
     <Layout sidebar={<Sidebar setCategory={setCategory}/>}>
         <Grid container spacing={3}>
-            <MediaCard />
+            {filterdResults.map((media) => (
+                <MediaCard item={media}/>
+            ))}
         </Grid>
     </Layout>
     </AppLayout>
