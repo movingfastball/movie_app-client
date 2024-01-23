@@ -6,6 +6,7 @@ import Head from 'next/head';
 import React from 'react'
 
 const Detail = ({detail, media_type}) => {
+  console.log(detail)
   return (
     <AppLayout
       header={
@@ -17,7 +18,7 @@ const Detail = ({detail, media_type}) => {
           <title>Laravel - Detail</title>
       </Head>
       <Box 
-          sx ={{ 
+          sx = {{ 
             height:{xs:"auto", md:"70vh"},bgcolor: "red", prosition:"relative", display:"flex", alignItems:"center"
             }}
       >
@@ -29,6 +30,20 @@ const Detail = ({detail, media_type}) => {
                 bottom:0,
                 left:0,
                 right:0,
+                backgroundSize:"cover",
+                backgroundPosition:"center",
+                backgroundRepeat:"no-repeat",
+
+                '&::before': {
+                  content:'"',
+                  position:"absolute",
+                  top:0,
+                  bottom:0,
+                  left:0,
+                  right:0,
+                  backgroundColor: 'reba(0,0,0,0.5)',
+                  backdropFilter:'blur(10px)',
+                }
               }}
           />
         <Container sx={{ zIndex: 1}}>
@@ -56,6 +71,11 @@ export async function getServerSideProps(context) {
   try {
     const jpResponse = await axios.get(`https://api.themoviedb.org/3/${media_type}/${media_id}?api_key=${process.env.TMDB_API_KEY}&language=ja-JP`);
     const combinedData = {...jpResponse.data};
+
+    if(!jpResponse.data.overview) {
+      const enResponse = await axios.get(`https://api.themoviedb.org/3/${media_type}/${media_id}?api_key=${process.env.TMDB_API_KEY}&language=en-EN`);
+      combinedData.overview = enResponse.data.overview
+    }
 
     return {
       props:{detail:combinedData, media_type, media_id}
