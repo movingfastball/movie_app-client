@@ -1,5 +1,5 @@
 
-
+import AppLayout from '@/components/Layouts/AppLayout';
 import { Box, Container, Grid, Typography } from '@mui/material';
 import axios from 'axios'
 import Head from 'next/head';
@@ -56,14 +56,6 @@ export async function getServerSideProps(context) {
   try {
     const jpResponse = await axios.get(`https://api.themoviedb.org/3/${media_type}/${media_id}?api_key=${process.env.TMDB_API_KEY}&language=ja-JP`);
     const combinedData = {...jpResponse.data};
-
-    const newProfile = {...profile};
-
-    if(!jpResponse.data.overview) {
-      const enResponse = await axios.get(`https://api.themoviedb.org/3/${media_type}/${media_id}?api_key=${process.env.TMDB_API_KEY}&language=en-US`);
-      combinedData.overview = enResponse.data.overview;
-    }
-
 
     return {
       props:{detail:combinedData, media_type, media_id}
