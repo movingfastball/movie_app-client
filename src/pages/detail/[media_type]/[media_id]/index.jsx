@@ -1,12 +1,43 @@
 
 import AppLayout from '@/components/Layouts/AppLayout';
 import laravelAxios from '@/lib/laravelAxios';
-import { Box, Container, Grid, Typography } from '@mui/material';
+import { Box, Card, CardContent, Container, Grid, Rating, Typography } from '@mui/material';
 import axios from 'axios'
 import Head from 'next/head';
 import React, { useEffect } from 'react'
 
 const Detail = ({detail, media_type, media_id}) => {
+
+  const reviews = [
+ 
+    {
+      id:1,
+      content:"面白かった",
+      rating:4,
+
+      user:{
+        name:"山田花子",
+      }
+    },
+    {
+      id:2,
+      content:"おもんな",
+      rating:1,
+
+      user:{
+        name:"最底子",
+      }
+    },
+    {
+      id:3,
+      content:"普通",
+      rating:3,
+
+      user:{
+        name:"平凡太郎",
+      }
+    }
+  ]
 
     useEffect(() => {
       const fetchReviews = async() => {
@@ -44,7 +75,7 @@ const Detail = ({detail, media_type, media_id}) => {
                 backgroundImage:`url(https://image.tmdb.org/t/p/original/${detail.backdrop_path})`,
                 position:"absolute",
                 top:0,
-                bottom:0,
+                bottom:50,
                 left:0,
                 right:0,
                 backgroundSize:"cover",
@@ -78,6 +109,50 @@ const Detail = ({detail, media_type, media_id}) => {
           </Grid>
         </Container>
       </Box>
+
+      {/*レビュー内容表示*/}
+      <Container sx={{ py:4 }}>
+        <Typography
+          component={"h1"}
+          variant='h4'
+          align='center'
+          gutterBottom
+        >レビュー一覧
+        </Typography>
+
+          <Grid container spacing={3}>
+                {reviews.map((review) => (
+                  <Grid item xs={12} key={review.id}>
+                    <Card>
+                      <CardContent>
+                        <Typography
+                          variant='h6'
+                          component={"div"}
+                          gutterBottom
+                        >
+                          {review.user.name}
+                        </Typography>
+
+                        <Rating
+                          value = {review.rating}
+                          readOnly
+                        />
+
+                        <Typography
+                          variant='body2'
+                          color="textSecondary"
+                          paragraph
+                        >
+                          {review.content}
+                        </Typography>
+
+
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+          </Grid>
+        </Container>
     </AppLayout>
   )
 }
