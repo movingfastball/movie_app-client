@@ -1,13 +1,14 @@
 
 import AppLayout from '@/components/Layouts/AppLayout';
 import laravelAxios from '@/lib/laravelAxios';
-import { Box, Card, CardContent, Container, Grid, Rating, Typography } from '@mui/material';
+import { Box, Card, CardContent, Container, Fab, Grid, Modal, Rating, Tooltip, Typography } from '@mui/material';
 import axios from 'axios'
 import Head from 'next/head';
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react';
+import AddIcon from'@mui/icons-material/Add'
 
 const Detail = ({detail, media_type, media_id}) => {
-
+  const[open, setOpen] = useState(true)
   const reviews = [
  
     {
@@ -153,6 +154,62 @@ const Detail = ({detail, media_type, media_id}) => {
                 ))}
           </Grid>
         </Container>
+      {/*レビュー追加ボタンstart*/}
+      <Box
+        sx={{ 
+          position: "fixed",
+          bottom:"16px",
+          right:"16px",
+          zIndex:5,
+        }}
+      
+      >
+        <Tooltip title="レビュー追加">
+          <Fab
+            style={{ background:"blue",color:"white" }}
+          >
+            <AddIcon />
+          </Fab>
+        </Tooltip>
+      </Box>
+      {/*レビュー追加ボタンEnd*/}
+
+      {/*モーダルウィンドウstart*/}
+      <Modal open={open}>
+        <Box
+          sx={{ 
+            position:"absolute",
+            top:"50%",
+            left:"50%",
+            transform:"translate(-50%, -50%)",
+            width:400,
+            bgcolor:"background.paper",
+            border:"2px solid, #000",
+            boxShadow: 24,
+            p: 4
+          }}
+        >
+
+        <Typography variant="h6" componet="h2">
+          レビューを書く
+        </Typography>
+
+        <Rating
+          required
+        >
+
+          <Text/>
+
+        </Rating>
+
+        </Box>
+      </Modal>
+
+
+
+
+
+      {/*モーダルウィンドウEnd*/}
     </AppLayout>
   )
 }
