@@ -9,7 +9,8 @@ import AddIcon from'@mui/icons-material/Add'
 
 const Detail = ({detail, media_type, media_id}) => {
   const[open, setOpen] = useState(false)
-  
+  const[rating, setRating] = useState(0);
+  const[review, setReview] = useState("");
   const handleOpen = () => {
     setOpen(true)
   }
@@ -18,8 +19,18 @@ const Detail = ({detail, media_type, media_id}) => {
     setOpen(false)
   }
   
-  
-  
+  const handleReviewChagne = (e) => {
+    setReview(e.target.value)
+    console.log(review)
+  }
+
+  const handleRatingChagne = (e, newValue) => {
+    setRating(newValue)
+    console.log(rating);
+  }
+
+  const isDisabled = !rating || !review.trim()
+
   const reviews = [
     {
       id:1,
@@ -207,6 +218,8 @@ const Detail = ({detail, media_type, media_id}) => {
 
         <Rating
           required
+          onChange={handleRatingChagne}
+          value={rating}
         />
 
         <TextareaAutosize
@@ -214,10 +227,13 @@ const Detail = ({detail, media_type, media_id}) => {
           minRows={5}
           placeholder="レビュー内容"
           style={{ width:"100%", marginTop:"10px" }}
+          onChange={handleReviewChagne}
+          value={review}
         />
 
         <Button
           variant='outlined'
+          disabled={isDisabled}
         >
           送信
         </Button>
