@@ -1,16 +1,26 @@
 
 import AppLayout from '@/components/Layouts/AppLayout';
 import laravelAxios from '@/lib/laravelAxios';
-import { Box, Card, CardContent, Container, Fab, Grid, Modal, Rating, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Card, CardContent, Container, Fab, Grid, Modal, Rating, TextareaAutosize, Tooltip, Typography } from '@mui/material';
 import axios from 'axios'
 import Head from 'next/head';
 import React, { useEffect, useState } from 'react';
 import AddIcon from'@mui/icons-material/Add'
 
 const Detail = ({detail, media_type, media_id}) => {
-  const[open, setOpen] = useState(true)
+  const[open, setOpen] = useState(false)
+  
+  const handleOpen = () => {
+    setOpen(true)
+  }
+  
+  const handleClose = () => {
+    setOpen(false)
+  }
+  
+  
+  
   const reviews = [
- 
     {
       id:1,
       content:"面白かった",
@@ -167,6 +177,7 @@ const Detail = ({detail, media_type, media_id}) => {
         <Tooltip title="レビュー追加">
           <Fab
             style={{ background:"blue",color:"white" }}
+            onClick={handleOpen}
           >
             <AddIcon />
           </Fab>
@@ -175,7 +186,7 @@ const Detail = ({detail, media_type, media_id}) => {
       {/*レビュー追加ボタンEnd*/}
 
       {/*モーダルウィンドウstart*/}
-      <Modal open={open}>
+      <Modal open={open} onClose={handleClose}>
         <Box
           sx={{ 
             position:"absolute",
@@ -196,19 +207,23 @@ const Detail = ({detail, media_type, media_id}) => {
 
         <Rating
           required
+        />
+
+        <TextareaAutosize
+          required
+          minRows={5}
+          placeholder="レビュー内容"
+          style={{ width:"100%", marginTop:"10px" }}
+        />
+
+        <Button
+          variant='outlined'
         >
-
-          <Text/>
-
-        </Rating>
+          送信
+        </Button>
 
         </Box>
       </Modal>
-
-
-
-
-
       {/*モーダルウィンドウEnd*/}
     </AppLayout>
   )
