@@ -6,6 +6,8 @@ import axios from 'axios'
 import Head from 'next/head';
 import React, { useEffect, useState } from 'react';
 import AddIcon from'@mui/icons-material/Add'
+import StarIcon from'@mui/icons-material/Star'
+
 
 const Detail = ({detail, media_type, media_id}) => {
   const[open, setOpen] = useState(false)
@@ -50,12 +52,22 @@ const Detail = ({detail, media_type, media_id}) => {
       //レビュー送信時close処理
       setReview("");
       setRating(0);
-
+      const updatedReviews = [...reviews, newReview];
+      console.log(updatedReviews)
+      updateAverageRating(updatedReviews);
 
     } catch(err) {
       console.log(err);
     }
   }
+
+  const updateAverageRating = (updatedReviews) => {
+
+  }
+
+
+
+
 /*
   const reviews = [
     {
@@ -151,6 +163,28 @@ const Detail = ({detail, media_type, media_id}) => {
             <Grid item md={8} sx={{ bgcolor:"orenge" }}>
               <Typography variant="h4" paragraph>{detail.title || detail.name}</Typography>
               <Typography paragraph>{detail.overview}</Typography>
+              <Box
+                gap={2}
+                sx = {{ 
+                  display:"flex",
+                  alignItems:"center",
+                  mb:2
+                 }}
+              >
+                <Rating 
+                  readOnly
+                  precision={0.5}
+                  emptyIcon={<StarIcon style={{color:"white"}}/>}
+                />
+
+                <Typography
+                  sx={{
+                    ml:1,
+                    fontSize:'1.5rem',
+                    fontWeight:"bold",
+                   }}
+                >3</Typography>
+              </Box>
               <Typography variant="h6" paragraph>
                 {media_type == "movie" ? `公開日:${detail.release_date}`:`初回放送日:${detail.first_air_date}`}
               </Typography>
