@@ -11,6 +11,7 @@ const Detail = ({detail, media_type, media_id}) => {
   const[open, setOpen] = useState(false)
   const[rating, setRating] = useState(0);
   const[review, setReview] = useState("");
+  const[reviews, setReviews] = useState([]);
   const handleOpen = () => {
     setOpen(true)
   }
@@ -32,6 +33,7 @@ const Detail = ({detail, media_type, media_id}) => {
   const isDisabled = !rating || !review.trim()
 
   const handleReviewAdd = async() => {
+    handleClose()
     try {
       const response = await laravelAxios.post(`api/reviews`,{
         content: review,
@@ -39,11 +41,22 @@ const Detail = ({detail, media_type, media_id}) => {
         media_type: media_type,
         media_id: media_id
       })
+      //console.log(response.date);
+      const newReview = response.data;
+
+      setReviews([...reviews, newReview]);
+      console.log(reviews);
+      
+      //レビュー送信時close処理
+      setReview("");
+      setRating(0);
+
+
     } catch(err) {
       console.log(err);
     }
   }
-
+/*
   const reviews = [
     {
       id:1,
@@ -73,12 +86,13 @@ const Detail = ({detail, media_type, media_id}) => {
       }
     }
   ]
-
+*/
     useEffect(() => {
       const fetchReviews = async() => {
         try {
           const response = await laravelAxios.get(`api/reviews/${media_type}/${media_id}`)
-          console.log(response)
+          console.log(response.data);
+          setReviews(response.data)
         } catch(err) {
           console.log(err)
         }
