@@ -62,7 +62,15 @@ const Detail = ({detail, media_type, media_id}) => {
   }
 
   const updateAverageRating = (updatedReviews) => {
+    if(updatedReviews.length > 0) {
+      //レビューの星の数の合計値を計算
+      const totalRating = updatedReviews.reduce((acc, review) => acc + review.rating, 0);
+      console.log(totalRating)
 
+      const average = (totalRating / updatedReviews.length).toFixed(1);
+
+      console.log(average);
+    }
   }
 
 
