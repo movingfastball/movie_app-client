@@ -1,7 +1,7 @@
 
 import AppLayout from '@/components/Layouts/AppLayout';
 import laravelAxios from '@/lib/laravelAxios';
-import { Box, Button, Card, CardContent, Container, Fab, Grid, Modal, Rating, TextareaAutosize, Tooltip, Typography } from '@mui/material';
+import { Box, Button, ButtonGroup, Card, CardContent, Container, Fab, Grid, Modal, Rating, TextareaAutosize, Tooltip, Typography } from '@mui/material';
 import axios from 'axios'
 import Head from 'next/head';
 import React, { useEffect, useState } from 'react';
@@ -73,41 +73,16 @@ const Detail = ({detail, media_type, media_id}) => {
       console.log(average);
     }
   }
-
-
-
-
-/*
-  const reviews = [
-    {
-      id:1,
-      content:"面白かった",
-      rating:4,
-
-      user:{
-        name:"山田花子",
-      }
-    },
-    {
-      id:2,
-      content:"おもんな",
-      rating:1,
-
-      user:{
-        name:"最底子",
-      }
-    },
-    {
-      id:3,
-      content:"普通",
-      rating:3,
-
-      user:{
-        name:"平凡太郎",
-      }
+  const handleDelete = async(id) => {
+    console.log(id);
+    try {
+      const response = await laravelAxios.delete(`api/review/${id}`);
+      console.log(response);
+    } catch(err) {
+      console.log(err);
     }
-  ]
-*/
+  }
+
     useEffect(() => {
       const fetchReviews = async() => {
         try {
@@ -123,9 +98,6 @@ const Detail = ({detail, media_type, media_id}) => {
       fetchReviews()
 
     }, [media_type, media_id])
-
- 
-
 
   return (
     <AppLayout
@@ -241,6 +213,12 @@ const Detail = ({detail, media_type, media_id}) => {
                           {review.content}
                         </Typography>
 
+                        <Grid sx={{ display:"flex", justifyContent:"flex-end" }}>
+                          <ButtonGroup>
+                            <Button>編集</Button>
+                            <Button color="error" onClick={() => handleDelete(review.id)}>削除</Button>
+                          </ButtonGroup>
+                        </Grid>
 
                       </CardContent>
                     </Card>
