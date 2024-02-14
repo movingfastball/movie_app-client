@@ -14,6 +14,7 @@ const Detail = ({detail, media_type, media_id}) => {
   const[rating, setRating] = useState(0);
   const[review, setReview] = useState("");
   const[reviews, setReviews] = useState([]);
+  const[averageRating, setAverageRating] = useState(null);
   const handleOpen = () => {
     setOpen(true)
   }
@@ -68,7 +69,7 @@ const Detail = ({detail, media_type, media_id}) => {
       console.log(totalRating)
 
       const average = (totalRating / updatedReviews.length).toFixed(1);
-
+      setAverageRating(average);
       console.log(average);
     }
   }
@@ -112,7 +113,9 @@ const Detail = ({detail, media_type, media_id}) => {
         try {
           const response = await laravelAxios.get(`api/reviews/${media_type}/${media_id}`)
           console.log(response.data);
+          const fetchReviews = response.data;
           setReviews(response.data)
+          updateAverageRating(response.data)
         } catch(err) {
           console.log(err)
         }
@@ -182,6 +185,7 @@ const Detail = ({detail, media_type, media_id}) => {
                 <Rating 
                   readOnly
                   precision={0.5}
+                  value={parseFloat(averageRating)}
                   emptyIcon={<StarIcon style={{color:"white"}}/>}
                 />
 
@@ -191,7 +195,7 @@ const Detail = ({detail, media_type, media_id}) => {
                     fontSize:'1.5rem',
                     fontWeight:"bold",
                    }}
-                >3</Typography>
+                >{averageRating}</Typography>
               </Box>
               <Typography variant="h6" paragraph>
                 {media_type == "movie" ? `公開日:${detail.release_date}`:`初回放送日:${detail.first_air_date}`}
