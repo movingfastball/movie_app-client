@@ -16,6 +16,10 @@ const Detail = ({detail, media_type, media_id}) => {
   const[review, setReview] = useState("");
   const[reviews, setReviews] = useState([]);
   const[averageRating, setAverageRating] = useState(null);
+  const[editMode, setEditMode] = useState(null);
+  const[editedRating, setEditedRating] = useState(null);
+  const[editedContent, setEditedContent] = useState(null);
+
   const{user} = useAuth({middleware:'auth'});
 
   const handleOpen = () => {
@@ -94,21 +98,32 @@ const Detail = ({detail, media_type, media_id}) => {
     }
   }
 
-    useEffect(() => {
-      const fetchReviews = async() => {
-        try {
-          const response = await laravelAxios.get(`api/reviews/${media_type}/${media_id}`)
-          console.log(response.data);
-          const fetchReviews = response.data;
-          setReviews(response.data)
-          updateAverageRating(response.data)
-        } catch(err) {
-          console.log(err)
-        }
-      }
-      fetchReviews()
+  const handleEdit = (review) => {
+    setEditMode(review.id);
+    setEditedRating(review.rating);
+    setEditedContent(review.content);
+  }
 
-    }, [media_type, media_id])
+  const handleConfirmEdit = (reviewId) => {
+    console.log(reviewId)
+  }
+
+
+
+  useEffect(() => {
+    const fetchReviews = async() => {
+      try {
+        const response = await laravelAxios.get(`api/reviews/${media_type}/${media_id}`)
+        console.log(response.data);
+        const fetchReviews = response.data;
+        setReviews(response.data)
+        updateAverageRating(response.data)
+      } catch(err) {
+        console.log(err)
+      }
+    }
+    fetchReviews()
+  }, [media_type, media_id])
 
   return (
     <AppLayout
@@ -203,33 +218,44 @@ const Detail = ({detail, media_type, media_id}) => {
                   <Grid item xs={12} key={review.id}>
                     <Card>
                       <CardContent>
-                        <Typography
-                          variant='h6'
-                          component={"div"}
-                          gutterBottom
-                        >
-                          {review.user.name}
-                        </Typography>
+                        {/* ユーザー名 */}
+                          <Typography variant='h6' component={"div"} gutterBottom>
+                              {review.user.name}
+                          </Typography>
+                        {editMode === review.id ? (
+                          <>
+                          {/*編集ボタンを押されたレビューの見た目*/}
+                            <Rating value={editedRating} onChange={(e, newValue) => setEditedRating(newValue)}/>
+                            <TextareaAutosize minRows={3} style={{ width:"100%" }} value={editedContent}
+                            onChange={(e) => setEditedContent(e.target.value)}/>
+                          </>
+                        ) : (
+                          <>
 
-                        <Rating
-                          value = {review.rating}
-                          readOnly
-                        />
 
-                        <Typography
-                          variant='body2'
-                          color="textSecondary"
-                          paragraph
-                        >
-                          {review.content}
-                        </Typography>
+                            {/* 星 */}
+                            <Rating value = {review.rating} readOnly />
+                              
+                            {/* レビュー内容 */}
+                            <Typography variant='body2' color="textSecondary" paragraph>
+                              {review.content}
+                            </Typography>
+                          </>
+                        )}
+
 
                         {user?.id === review.user.id && (
                           <Grid sx={{ display:"flex", justifyContent:"flex-end" }}>
-                            <ButtonGroup>
-                              <Button>編集</Button>
+                            {editMode === review.id ?(
+                                //編集中の表示
+                                <Button onClick={() => handleConfirmEdit(review.id)}>編集確定</Button>
+                            ) : (
+                              <ButtonGroup>
+                              <Button onClick={() => handleEdit(review)}>編集</Button>
                               <Button color="error" onClick={() => handleDelete(review.id)}>削除</Button>
                             </ButtonGroup>
+                            )}
+
                           </Grid>
                         )}
 
