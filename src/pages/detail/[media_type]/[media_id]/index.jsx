@@ -108,13 +108,12 @@ const Detail = ({detail, media_type, media_id}) => {
     console.log(reviewId)
     try{
       const response = await laravelAxios.put(`api/reviews/${reviewId}`,{
-          content: editedContent,
-          rating: editedRating
+        content: editedContent,
+        rating: editedRating
         })
       } catch(err) {
         console.log(err);
       }
-    }
   }
 
 
