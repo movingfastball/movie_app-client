@@ -40,7 +40,13 @@ const Detail = ({detail, media_type, media_id}) => {
     console.log(rating);
   }
 
-  const isDisabled = !rating || !review.trim()
+  const isButtonDisabled = (rating, content) => {
+    return !rating || !content.trim()
+  }
+
+  const isReviewButtonDisabled = isButtonDisabled(rating, review);
+  const isEditButtonDisabled = isButtonDisabled(editedRating, editedContent);
+
 
   const handleReviewAdd = async() => {
     handleClose()
@@ -254,7 +260,7 @@ const Detail = ({detail, media_type, media_id}) => {
                           <Grid sx={{ display:"flex", justifyContent:"flex-end" }}>
                             {editMode === review.id ?(
                                 //編集中の表示
-                                <Button onClick={() => handleConfirmEdit(review.id)}>編集確定</Button>
+                                <Button onClick={() => handleConfirmEdit(review.id)} disabled={isEditButtonDisabled}>編集確定</Button>
                             ) : (
                               <ButtonGroup>
                               <Button onClick={() => handleEdit(review)}>編集</Button>
@@ -329,7 +335,7 @@ const Detail = ({detail, media_type, media_id}) => {
 
         <Button
           variant='outlined'
-          disabled={isDisabled}
+          disabled={isReviewButtonDisabled}
           onClick={handleReviewAdd}
         >
           送信
