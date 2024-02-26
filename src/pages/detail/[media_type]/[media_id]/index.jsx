@@ -109,14 +109,17 @@ const Detail = ({detail, media_type, media_id}) => {
     setEditedRating(review.rating);
     setEditedContent(review.content);
   }
-
+//編集確定ボタンを押下したときの動作
   const handleConfirmEdit = async(reviewId) => {
     console.log(reviewId)
     try{
-      const response = await laravelAxios.put(`api/reviews/${reviewId}`,{
+      const response = await laravelAxios.put(`api/review/${reviewId}`,{
         content: editedContent,
         rating: editedRating
         })
+
+        console.log(response);
+        setEditMode(null);
       } catch(err) {
         console.log(err);
       }
