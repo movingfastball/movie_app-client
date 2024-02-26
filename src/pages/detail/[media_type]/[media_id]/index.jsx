@@ -104,8 +104,17 @@ const Detail = ({detail, media_type, media_id}) => {
     setEditedContent(review.content);
   }
 
-  const handleConfirmEdit = (reviewId) => {
+  const handleConfirmEdit = async(reviewId) => {
     console.log(reviewId)
+    try{
+      const response = await laravelAxios.put(`api/reviews/${reviewId}`,{
+          content: editedContent,
+          rating: editedRating
+        })
+      } catch(err) {
+        console.log(err);
+      }
+    }
   }
 
 
@@ -231,8 +240,6 @@ const Detail = ({detail, media_type, media_id}) => {
                           </>
                         ) : (
                           <>
-
-
                             {/* 星 */}
                             <Rating value = {review.rating} readOnly />
                               
