@@ -36,6 +36,23 @@ const ReviewDetail = () => {
         console.log(content);
     }
 
+    const handleCommentAdd = async(e) => {
+        e.preventDefault()
+        const trimmedContent = content.trim();
+        if(!trimmedContent) {
+            return
+        }
+
+        try {
+            const response = await laravelAxios.post(`api/comments` ,{
+                content: trimmedContent,
+                review_id: reviewId,
+            })
+        } catch(err) {
+            console.log(err);
+        }
+    }
+
   return (
     <AppLayout header={
         <h2 className="font-semibold text-xl text-gray-800 leading-tight">
@@ -79,7 +96,7 @@ const ReviewDetail = () => {
                 {/* 返信用のフォーム */}
                 <Box
                     component="form"
-                    //onSubmit={handleCommentAdd}
+                    onSubmit={handleCommentAdd}
                     noValidate
                     autoComplete="off"
                     p={2}
