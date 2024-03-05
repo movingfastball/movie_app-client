@@ -2,14 +2,13 @@ import { Button, ButtonGroup, Card, CardContent, Grid, Typography } from '@mui/m
 import React from 'react'
 
 
-const Comment = () => {
+const Comment = ({comment}) => {
   return (
     <Card>
         <CardContent>
             <Typography variant='h6' component="div" gutterBottom>
-                ユーザー名
+                {comment.user.name}
             </Typography>
-
             <Typography
             variant="body2"
             color="textSecondary"
@@ -17,7 +16,7 @@ const Comment = () => {
             gutterBottom
             paragraph
             >
-                コメント内容
+                {comment.content}
             </Typography>
 
             <Grid container justifyContent="flex-end">

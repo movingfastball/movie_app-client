@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react'
 const ReviewDetail = () => {
 
     const[review,setReview] = useState(null);
-    const[commnts,setComments] = useState([]);
+    const[comments,setComments] = useState([]);
 
 
     const router = useRouter();
@@ -24,6 +24,7 @@ const ReviewDetail = () => {
                 console.log(response);
                 setReview(response.data);
                 setComments(response.data.comments);
+                console.log(comments);
             } catch (err) {
                 console.log(err)
             }
@@ -42,7 +43,7 @@ const ReviewDetail = () => {
         </Head>
         
         <Container sx={{ py:2 }}>
-            {review && (
+            {review ? (
             <>
                 {/*レビュー内容*/}
                 <Card>
@@ -72,8 +73,10 @@ const ReviewDetail = () => {
                 </Card>
 
                 {/*コメント*/}
-                <CommentList />
+                <CommentList comments={comments}/>
             </>
+            ) : (
+                <div>Loading...</div>
             )}
         </Container>
     </AppLayout>
