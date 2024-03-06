@@ -46,6 +46,13 @@ const ReviewDetail = () => {
                 review_id: reviewId,
             })
             console.log(response.data);
+            const newCommnet = response.data;
+            //DBから取得した新たなコメントが入ってすぐに反映される
+            setComments([...comments, newCommnet]);
+            //送信したら送信フォームの文字をリセットする
+            setContent('');
+
+
         } catch(err) {
             console.log(err);
         }
