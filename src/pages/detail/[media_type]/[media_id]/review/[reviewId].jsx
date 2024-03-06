@@ -13,17 +13,14 @@ const ReviewDetail = () => {
     const[content,setContent] = useState("");
     const router = useRouter();
     const { reviewId } = router.query;
-    console.log(reviewId);
 
     useEffect(() => {
         if(!reviewId) return;
         const fetchReviewDetail = async() => {
             try {
                 const response = await laravelAxios.get(`api/review/${reviewId}`);
-                console.log(response);
                 setReview(response.data);
                 setComments(response.data.comments);
-                console.log(comments);
             } catch (err) {
                 console.log(err)
             }
@@ -37,17 +34,18 @@ const ReviewDetail = () => {
     }
 
     const handleCommentAdd = async(e) => {
-        e.preventDefault()
+        e.preventDefault();
         const trimmedContent = content.trim();
         if(!trimmedContent) {
             return
         }
-
         try {
-            const response = await laravelAxios.post(`api/comments` ,{
+            //下記でLaravelのCommentControllerに保存する内容を送信する
+            const response = await laravelAxios.post(`api/comments`,{
                 content: trimmedContent,
                 review_id: reviewId,
             })
+            console.log(response.data);
         } catch(err) {
             console.log(err);
         }
@@ -93,42 +91,42 @@ const ReviewDetail = () => {
                     </CardContent>
                 </Card>
 
-                {/* 返信用のフォーム */}
-                <Box
-                    component="form"
-                    onSubmit={handleCommentAdd}
-                    noValidate
-                    autoComplete="off"
-                    p={2}
-                    sx={{
-                        mb: 2,
-                        display: 'flex',
-                        alignItems: 'flex-start',
-                        bgcolor: 'background.paper',
-                    }}
-                >
-                    <TextField
-                        inputProps={{ maxLength: 200 }}
-                        error={content.length > 5}
-                        helperText={content.length > 5 ? '200文字を超えています' : ''}
-                        fullWidth
-                        label="comment"
-                        variant="outlined"
-                        value={content}
-                        onChange={handleChange}
-                        sx={{ mr: 1, flexGrow: 1 }}
-                    />
-                    <Button
-                        variant="contained"
-                        type="submit"
-                        style={{
-                            backgroundColor: '#1976d2',
-                            color: '#fff',
-                        }}
-                    >
-                        送信
-                    </Button>
-                </Box>
+{/* 返信用のフォーム */}
+<Box
+    component="form"
+    onSubmit={handleCommentAdd}
+    noValidate
+    autoComplete="off"
+    p={2}
+    sx={{
+        mb: 2,
+        display: 'flex',
+        alignItems: 'flex-start',
+        bgcolor: 'background.paper',
+    }}
+>
+    <TextField
+        inputProps={{ maxLength: 200 }}
+        error={content.length > 200}
+        helperText={content.length > 200 ? '200文字を超えています' : ''}
+        fullWidth
+        label="comment"
+        variant="outlined"
+        value={content}
+        onChange={handleChange}
+        sx={{ mr: 1, flexGrow: 1 }}
+    />
+    <Button
+        variant="contained"
+        type="submit"
+        style={{
+            backgroundColor: '#1976d2',
+            color: '#fff',
+        }}
+    >
+        送信
+    </Button>
+</Box>
 
                 {/*コメント*/}
                 <CommentList comments={comments}/>
