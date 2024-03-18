@@ -27,11 +27,14 @@ const CommentList = ({comments, setComments}) => {
     setEditedContent(comment.content);
   }
 
-  const handleConfirmEdit = (commentId) => {
+  const handleConfirmEdit = async(commentId) => {
     try {
       const response = await laravelAxios.put(`api/comments/${commentId}`,{
         content:editedContent,
       })
+
+      console.log(response.data);
+
     } catch (err) {
       console.log(err);
     }
