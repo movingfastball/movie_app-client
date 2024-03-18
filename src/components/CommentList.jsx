@@ -34,12 +34,23 @@ const CommentList = ({comments, setComments}) => {
       })
 
       console.log(response.data);
+      const updatedComment = response.data
+
+      const updatedComments = comments.map((comment) => {
+        if(comment.id === commentId) {
+          return {
+            ...comment, content: updatedComment.content,
+          }
+        }
+        return comment;
+      })
+
+      setComments(updatedComments);
+      setEditMode(null)
 
     } catch (err) {
       console.log(err);
     }
-    
-    
   }
   return (
     <Grid container spacing={3} sx={{ mt: 2 }}>
