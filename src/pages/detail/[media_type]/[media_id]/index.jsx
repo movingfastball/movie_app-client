@@ -1,7 +1,7 @@
 
 import AppLayout from '@/components/Layouts/AppLayout';
 import laravelAxios from '@/lib/laravelAxios';
-import { Box, Button, ButtonGroup, Card, CardContent, Container, Fab, Grid, Modal, Rating, TextareaAutosize, Tooltip, Typography } from '@mui/material';
+import { Box, Button, ButtonGroup, Card, CardContent, Container, Fab, Grid, IconButton, Modal, Rating, TextareaAutosize, Tooltip, Typography } from '@mui/material';
 import axios from 'axios'
 import Head from 'next/head';
 import React, { useEffect, useState } from 'react';
@@ -9,7 +9,7 @@ import AddIcon from'@mui/icons-material/Add'
 import StarIcon from'@mui/icons-material/Star'
 import { useAuth } from '@/hooks/auth';
 import Link from 'next/link';
-
+import FavoriteIcon from '@mui/icons-material/Favorite'
 
 const Detail = ({detail, media_type, media_id}) => {
   const[open, setOpen] = useState(false)
@@ -139,6 +139,18 @@ const Detail = ({detail, media_type, media_id}) => {
       }
   }
 
+  const handleToggleFavorite = async() => {
+    try {
+      const response = await laravelAxios.post('api/favorites',{
+        media_type:media_type,
+        media_id: media_id
+      });
+    } catch(err) {
+
+    }
+  }
+
+
 
 
   useEffect(() => {
@@ -202,6 +214,13 @@ const Detail = ({detail, media_type, media_id}) => {
             </Grid>
             <Grid item md={8} sx={{ bgcolor:"orenge" }}>
               <Typography variant="h4" paragraph>{detail.title || detail.name}</Typography>
+
+              <IconButton style={{ color:"white", background: "#0d253f"}}>
+                <FavoriteIcon onClick={handleToggleFavorite}/>
+              </IconButton>
+
+
+
               <Typography paragraph>{detail.overview}</Typography>
               <Box
                 gap={2}
