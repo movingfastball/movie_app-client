@@ -20,6 +20,7 @@ const Detail = ({detail, media_type, media_id}) => {
   const[editMode, setEditMode] = useState(null);
   const[editedRating, setEditedRating] = useState(null);
   const[editedContent, setEditedContent] = useState(null);
+  const[isFavorited, setIsFavorited] = useState(false)
 
   const{user} = useAuth({middleware:'auth'});
 
@@ -145,6 +146,8 @@ const Detail = ({detail, media_type, media_id}) => {
         media_type:media_type,
         media_id: media_id
       });
+      console.log(response.data);
+      setIsFavorited(response.data.status === "added")
     } catch(err) {
 
     }
@@ -215,7 +218,7 @@ const Detail = ({detail, media_type, media_id}) => {
             <Grid item md={8} sx={{ bgcolor:"orenge" }}>
               <Typography variant="h4" paragraph>{detail.title || detail.name}</Typography>
 
-              <IconButton style={{ color:"white", background: "#0d253f"}}>
+              <IconButton style={{ color : isFavorited ? "red":"white", background: "#0d253f"}}>
                 <FavoriteIcon onClick={handleToggleFavorite}/>
               </IconButton>
 
