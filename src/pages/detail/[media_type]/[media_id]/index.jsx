@@ -153,9 +153,6 @@ const Detail = ({detail, media_type, media_id}) => {
     }
   }
 
-
-
-
   useEffect(() => {
     const fetchReviews = async() => {
       try {
@@ -168,12 +165,14 @@ const Detail = ({detail, media_type, media_id}) => {
             }
           })
         ]) 
-        console.log(response.data);
+        //console.log(reviewResponse.data);
         const fetchReviews = reviewResponse.data;
         setReviews(fetchReviews)
         updateAverageRating(fetchReviews)
-
         
+        console.log(favoriteResponse)
+        setIsFavorited(favoriteResponse.data)
+
       } catch(err) {
         console.log(err)
       }
@@ -228,12 +227,9 @@ const Detail = ({detail, media_type, media_id}) => {
             <Grid item md={8} sx={{ bgcolor:"orenge" }}>
               <Typography variant="h4" paragraph>{detail.title || detail.name}</Typography>
 
-              <IconButton style={{ color : isFavorited ? "red":"white", background: "#0d253f"}}>
-                <FavoriteIcon onClick={handleToggleFavorite}/>
+              <IconButton onClick={handleToggleFavorite} style={{ color : isFavorited ? "red":"white", background: "#0d253f"}}>
+                <FavoriteIcon />
               </IconButton>
-
-
-
               <Typography paragraph>{detail.overview}</Typography>
               <Box
                 gap={2}
