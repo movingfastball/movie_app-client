@@ -1,4 +1,5 @@
 import AppLayout from '@/components/Layouts/AppLayout'
+import laravelAxios from '@/lib/laravelAxios';
 import Head from 'next/head'
 import React from 'react'
 import useSWR from 'swr';
@@ -7,6 +8,9 @@ const favorites = () => {
     const fetcher = (url) => laravelAxios.get(url).then((res) => res.data);
     const {data: favoriteItems, error} = useSWR('api/favorites',fetcher);
 
+
+    console.log(favoriteItems);
+    console.log(error);
     if(error) {
         return <div>エラーが発生しました</div>
     }
@@ -23,6 +27,7 @@ const favorites = () => {
     <Head>
         <title>Laravel - Favorite</title>
     </Head>
+    <div>favorites</div>
     </AppLayout>
   )
 }
