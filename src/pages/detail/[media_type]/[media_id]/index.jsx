@@ -192,7 +192,11 @@ const Detail = ({detail, media_type, media_id}) => {
       </Head>
       <Box 
           sx = {{ 
-            height:{xs:"auto", md:"70vh"},bgcolor: "red", prosition:"relative", display:"flex", alignItems:"center"
+            height:{xs:"auto", md:"70vh"},
+            position: 'relative',
+            display:"flex",
+            alignItems:"center",
+            overflow: 'hidden',
             }}
       >
         <Box
@@ -222,7 +226,7 @@ const Detail = ({detail, media_type, media_id}) => {
         <Container sx={{ zIndex: 1}}>
           <Grid sx={{color: "white" }} container alignItems={"center"}> 
             <Grid item md={4} sx = {{ display:"flex", justifyContent:"center" }}>
-              <img width={"70%"} src={`https://image.tmdb.org/t/p/original/${detail.poster_path} `}/>
+              <img width={"60%"} src={`https://image.tmdb.org/t/p/original/${detail.poster_path} `}/>
             </Grid>
             <Grid item md={8} sx={{ bgcolor:"orenge" }}>
               <Typography variant="h4" paragraph>{detail.title || detail.name}</Typography>

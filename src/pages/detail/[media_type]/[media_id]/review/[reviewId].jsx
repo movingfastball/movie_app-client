@@ -72,7 +72,7 @@ const ReviewDetail = () => {
             {review ? (
             <>
                 {/*レビュー内容*/}
-                <Card>
+                <Card sx={{ minHeight: '200px' }}>
                     <CardContent>
                         <Typography
                             variant="h6"
